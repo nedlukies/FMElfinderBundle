@@ -120,6 +120,7 @@ role ROLE_USER provided for example.
 
 ```
 fm_elfinder:
+    
     instances:
         default:
             locale: %locale% # defaults to current request locale
