@@ -21,13 +21,13 @@ Recommended bundles to use with:
 
 [TrsteelCkeditorBundle](https://github.com/trsteel88/TrsteelCkeditorBundle)
 
+Readme for "component" branch
+
 - [Installation](#installation)
     - [Step 1: Installation](#step-1-installation)
     - [Step 2: Enable the bundle](#step-2-enable-the-bundle)
     - [Step 3: Import FMElfinderBundle routing file](#step-3-import-fmelfinderbundle-routing-file)
     - [Step 4: Configure your application's security.yml](#step-4-configure-your-applications-securityyml)
-    - [Step 5: Configure assetic](#step-5-configure-assetic)
-    - [Step 6: Install and dump assets](#step-6-install-and-dump-assets)
 - [Basic configuration](#basic-configuration)
     - [Add configuration options to your config.yml](#add-configuration-options-to-your-configyml)
 - [Configuring symfony service as a volumeDriver](#configuring-symfony-service-as-a-volumedriver)
@@ -50,20 +50,29 @@ This instruction explain how to setup bundle on Symfony 2.1 and newer
 ### Step 1: Installation
 
 You have a choice to install bundle of version 1.x (1.x branch, [documentation](https://github.com/helios-ag/FMElfinderBundle/blob/1.0/README.md)) or 2.x branch
-Add FMElfinderBundle in your composer.json:
+Add FMElfinderBundle to your composer.json:
 
 ```js
 {
     "require": {
-        "helios-ag/fm-elfinder-bundle": "2.x"
+        "helios-ag/fm-elfinder-bundle": "2.x",
     }
 }
 ```
 
+also add component-dir under config node of 
+
+```js
+{
+    "config": {
+        "component-dir": "web/assets"
+    }
+}
+```
 Now tell composer to download the bundle by running the command:
 
 ``` bash
-$ php composer.phar update helios-ag/fm-elfinder-bundle
+$ php composer.phar update
 ```
 
 ### Step 2: Enable the bundle
@@ -103,38 +112,7 @@ security:
         - { path: ^/elfinder, role: ROLE_USER }
 
 ```
-role ROLE_USER is provided as example.
-
-### Step 5: Configure assetic
-
-Under assetic section of your config.yml, add FMElfinderBundle to bundles section, also you can enable uglify js/css
-compressor (also you need to enable option "compression: true" under bundle configuration).
-
-Also set "use_controller: false".
-
-``` yaml
-assetic:
-    debug:          %kernel.debug%
-    use_controller: false
-    bundles:        [FMElfinderBundle]
-    java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        uglifyjs2:
-            # the path to the uglifyjs executable
-            bin: /usr/bin/uglifyjs
-        uglifycss:
-            bin: /usr/bin/uglifycss
-```
-
-### Step 6: Install and dump assets
-
-Install and dump assets using symfony built-in commands:
-
-```sh
-app/console assets:install web
-app/console assetic:dump --env=prod
-```
+role ROLE_USER provided for example.
 
 ## Basic configuration
 
@@ -390,6 +368,10 @@ Manual integration guide can be found [here](/INTEGRATION_GUIDE.md)
 More tests, gridfs support, complex user intergration(?)
 
 ##Changelog
+### Component dependent branch 
+### 2.3
+* Removed dependency to RequestStack, now works fine with Symfony 2.3 
+
 ### 2.1
 * New Elfinder form type, provides basic <input type="text"/> field with Elfinder callback
 

@@ -22,8 +22,9 @@ class ElFinderController extends Controller
     public function showAction($instance)
     {
         $efParameters = $this->container->getParameter('fm_elfinder');
+        $assetsPath = $efParameters['assets_path'];
         $parameters = $efParameters['instances'][$instance];
-        $result = $this->selectEditor($parameters, $instance);
+        $result = $this->selectEditor($parameters, $instance, $assetsPath);
 
         return $this->render($result['template'], $result['params']);
     }
@@ -31,9 +32,10 @@ class ElFinderController extends Controller
     /**
      * @param $parameters
      * @param $instance
+     * @param $assetsPath
      * @return array
      */
-    private function selectEditor($parameters, $instance)
+    private function selectEditor($parameters, $instance, $assetsPath)
     {
         $editor = $parameters['editor'];
         $locale = $parameters['locale'] ?: $this->container->getParameter('locale');
@@ -50,7 +52,8 @@ class ElFinderController extends Controller
                     'locale' => $locale,
                     'fullscreen' => $fullscreen,
                     'includeAssets' => $includeAssets,
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'prefix' => $assetsPath
                 );
                 return $result;
             case 'tinymce':
@@ -59,7 +62,8 @@ class ElFinderController extends Controller
                     'locale' => $locale,
                     'tinymce_popup_path' => $this->getAssetsUrl($parameters['tinymce_popup_path']),
                     'includeAssets' => $includeAssets,
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'prefix' => $assetsPath
                 );
                 return $result;
             case 'tinymce4':
@@ -67,7 +71,8 @@ class ElFinderController extends Controller
                 $result['params'] = array(
                     'locale' => $locale,
                     'includeAssets' => $includeAssets,
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'prefix' => $assetsPath
                 );
                 return $result;
             case 'form':
@@ -76,7 +81,8 @@ class ElFinderController extends Controller
                     'locale' => $locale,
                     'fullscreen' => $fullscreen,
                     'includeAssets' => $includeAssets,
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'prefix' => $assetsPath
                 );
                 return $result;
             default:
@@ -85,7 +91,8 @@ class ElFinderController extends Controller
                     'locale' => $locale,
                     'fullscreen' => $fullscreen,
                     'includeAssets' => $includeAssets,
-                    'instance' => $instance
+                    'instance' => $instance,
+                    'prefix' => $assetsPath
                 );
                 return $result;
         }
