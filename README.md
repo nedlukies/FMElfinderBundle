@@ -120,7 +120,7 @@ role ROLE_USER provided for example.
 
 ```
 fm_elfinder:
-    
+    assets_path: /assets #default is "/assets", elfinder and jquery/jqueryui assets location, must be the same as component-dir second part (after "web" part) 
     instances:
         default:
             locale: %locale% # defaults to current request locale
