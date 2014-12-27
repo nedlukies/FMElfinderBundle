@@ -87,9 +87,9 @@ EOF;
     function elFinderBrowser (field_name, url, type, win) {
         tinymce.activeEditor.windowManager.open({
             file:"http://localhost/elfinder/minimal",
-            title: 'elFinder 2.0',
-            width: 900,
-            height: 450,
+            title: "",
+            width:,
+            height:,
             resizable: 'yes'
         }, {
             setUrl: function (url) {
