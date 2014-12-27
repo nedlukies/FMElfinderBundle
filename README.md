@@ -26,7 +26,7 @@ Recommended bundles to use with:
     - [Step 2: Enable the bundle](#step-2-enable-the-bundle)
     - [Step 3: Import FMElfinderBundle routing file](#step-3-import-fmelfinderbundle-routing-file)
     - [Step 4: Configure your application's security.yml](#step-4-configure-your-applications-securityyml)
-    - [Step 5: Install and dump assets](#step-5-install-assets)
+    - [Step 5: Install assets](#step-5-install-assets)
 - [Basic configuration](#basic-configuration)
     - [Add configuration options to your config.yml](#add-configuration-options-to-your-configyml)
 - [Configuring symfony service as a volumeDriver](#configuring-symfony-service-as-a-volumedriver)
@@ -48,21 +48,36 @@ This instruction explain how to setup bundle on Symfony 2.1 and newer
 
 ### Step 1: Installation
 
-You have a choice to install bundle of version 1.x (1.x branch, [documentation](https://github.com/helios-ag/FMElfinderBundle/blob/1.0/README.md)) or 2.x branch
-Add FMElfinderBundle in your composer.json:
 
-```js
-{
-    "require": {
-        "helios-ag/fm-elfinder-bundle": "2.x"
-    }
-}
+Install legacy version of the bundle ([documentation](https://github.com/helios-ag/FMElfinderBundle/blob/1.0/README.md)):
+
+
+```sh
+    composer require helios-ag/fm-elfinder-bundle: "~1.5" 
 ```
+
+
+For Symfony between 2.1 and 2.3 (2.3 included) use version ~2.3
+
+
+```sh
+    composer require helios-ag/fm-elfinder-bundle: "~2.3"
+```
+
+
+For Symfony 2.4 and later use version 3
+
+
+```sh
+    composer require helios-ag/fm-elfinder-bundle 
+```
+
 
 Now tell composer to download the bundle by running the command:
 
-``` bash
-$ php composer.phar update helios-ag/fm-elfinder-bundle
+
+```sh
+    composer update helios-ag/fm-elfinder-bundle
 ```
 
 ### Step 2: Enable the bundle
@@ -104,9 +119,10 @@ security:
 ```
 role ROLE_USER is provided as example.
 
+
 ### Step 5: Install assets
 
-Install assets using symfony built-in commands:
+Install and dump assets using symfony built-in commands:
 
 ```sh
 app/console assets:install web
@@ -124,6 +140,7 @@ fm_elfinder:
             editor: ckeditor # other choices are tinymce or simple, and form
             fullscreen: true # defaults true, applies to simple and ckeditor editors
             include_assets: true # disable if you want to handle loading of the javascript and css assets yourself
+            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
             connector:
                 debug: false # defaults to false
                 roots:       # at least one root must be defined
@@ -360,11 +377,19 @@ method getConfiguration($instance) should return array of parameters compatible 
 
 Manual integration guide can be found [here](/INTEGRATION_GUIDE.md)
 
+
 ##Changelog
-### 2.3.3
-* Compression option deprecated
-* assetic dep removed
-  
+### 3.2 
+* Removed assetic support
+### 3.0
+* BC in public api (controllers showAction method with second parameter)
+ 
+### 2.5
+* Version with Request_stack    
+
+### 2.3
+* Version for the LTS Symfony (2.3.x) (Re)    
+
 ### 2.1
 * New Elfinder form type, provides basic <input type="text"/> field with Elfinder callback
 

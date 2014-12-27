@@ -3,7 +3,9 @@
 namespace FM\ElfinderBundle\Configuration;
 
 use FM\ElfinderBundle\Model\ElFinderConfigurationProviderInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class ElFinderConfigurationReader
@@ -22,18 +24,24 @@ class ElFinderConfigurationReader implements ElFinderConfigurationProviderInterf
     protected $parameters;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * @param $parameters
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      */
-    public function __construct($parameters, Request $request)
+    public function __construct($parameters, RequestStack $requestStack, ContainerInterface $container)
     {
         $this->parameters = $parameters;
-        $this->request = $request;
+        $this->requestStack = $requestStack;
+        $this->container = $container;
     }
 
     /**
@@ -42,7 +50,7 @@ class ElFinderConfigurationReader implements ElFinderConfigurationProviderInterf
      */
     public function getConfiguration($instance)
     {
-        $request = $this->request;
+        $request = $this->requestStack->getCurrentRequest();
         $efParameters = $this->parameters;
         $parameters = $efParameters['instances'][$instance];
         $options = array();
@@ -52,7 +60,7 @@ class ElFinderConfigurationReader implements ElFinderConfigurationProviderInterf
         foreach ($parameters['connector']['roots'] as $parameter) {
             $path = $parameter['path'];
 
-            $driver = isset($parameter['driver']) ? $parameter['driver'] : null;
+            $driver = $this->container->has($parameter['driver']) ? $this->container->get($parameter['driver']) : null;
 
             $driverOptions = array(
                 'driver'        => $parameter['driver'],
